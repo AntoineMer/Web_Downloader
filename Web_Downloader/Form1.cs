@@ -37,7 +37,7 @@ namespace Web_Downloader
 
         }
 
-        private void buttonDwnld_Click(object sender, EventArgs e)
+        private async void buttonDwnld_Click(object sender, EventArgs e)
         {
             if (!Directory.Exists(folderBrowserDialog1.SelectedPath))
             {
@@ -54,12 +54,14 @@ namespace Web_Downloader
                 {
                     uri = new Uri(textBoxURL.Text);
                     WebRequest tryCreate = WebRequest.Create(uri);
-                    WebResponse webResponse = tryCreate.GetResponse();
+                    WebResponse webResponse = await tryCreate.GetResponseAsync();
                     if (File.Exists(folderBrowserDialog1.SelectedPath + WayName()))
                     {
                         File.Delete(folderBrowserDialog1.SelectedPath + WayName());
                         web.DownloadFileAsync(uri, folderBrowserDialog1.SelectedPath + WayName());
                     }
+                    else
+                        web.DownloadFileAsync(uri, folderBrowserDialog1.SelectedPath + WayName());
                 }
                 catch (UriFormatException _e)
                 {
